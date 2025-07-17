@@ -1,7 +1,7 @@
 # CV typst template
 My basic CV template I use to render my CV -- nothing crazy!
 
-Can be used like so. You, of course, need to have the data files in the `data/` directory, or change the paths accordingly.
+Example usage below:
 
 ```typst
 #import "@local/cv:0.0.1": *
