@@ -1,34 +1,23 @@
 #import "utils.typ"
 
-#let contacttext(info) = block(width: 100%)[
-    #let profiles = (
-        box(link("mailto:" + info.email)),
-        box(link("tel:" + info.phone)),
-        box(link(info.url)[#info.url.split("//").at(1)]),
-    )
-
-    #if none in profiles {
-        profiles.remove(profiles.position(it => it == none))
-    }
-
-    #if info.profiles.len() > 0 {
-        for profile in info.profiles {
-            profiles.push(
-                box(link(profile.url)[#profile.url.split("//").at(1)])
-            )
-        }
-    }
-
-    #text(weight: "medium", size: 9pt)[
-        #pad(x: 0em)[
-            #profiles.join([#sym.space.en #sym.diamond.filled #sym.space.en])
-        ]
-    ]
-    
-]
-
+// name: Nathan J. LeRoy
+// email: nleroy@virginia.edu
+// phone: (+1) 513 300 5031
+// url: https://nathanleroy.dev
+// profiles:
+//   - network: LinkedIn
+//     username: nathanjleroy
+//     url: https://linkedin.com/in/nathanjleroy
+//   - network: GitHub
+//     username: nleroy917
+//     url: https://github.com/nleroy917
 #let cv(
-    personalinfo: none,
+    name: "",
+    email: "",
+    phone: "",
+    personal_site: "",
+    linkedin: "",
+    github: "",
     doc
 ) = {
     set page(
@@ -66,15 +55,22 @@
     ]
 
     align(center)[
-        = #personalinfo.name
-        #contacttext(personalinfo)
+        = #name
+        #block(width: 100%)[
+            #(
+                link("mailto:" + email),
+                phone,
+                link("https://" + personal_site)[#personal_site],
+                link("https://" + linkedin)[#linkedin],
+                link("https://" + github)[#github]
+            ).join("  ◆  ")
+        ]
     ]
 
     doc
 }
 
 #let summary(summary) = {
-        
     align(left)[
         summary
     ]
