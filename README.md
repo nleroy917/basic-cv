@@ -8,8 +8,8 @@ Example usage below:
 
 #show: cv.with(
     name: "Nathan J. LeRoy",
-    email: "nleroy917@gmail.com",
-    phone: "(+1) 513 300 5031",
+    email: "me@me.com",
+    phone: "(+1) 513 555 5555",
     personal_site: "nathanleroy.dev",
     linkedin: "linkedin.com/in/nathanjleroy",
     github: "github.com/nleroy917"
