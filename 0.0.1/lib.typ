@@ -73,100 +73,76 @@
     doc
 }
 
-#let cvsummary(summary) = {
-    if info.summary != none [
-        == Summary
-        #align(left)[
-            summary
-        ]
+#let summary(summary) = {
         
+    align(left)[
+        summary
     ]
 }
 
-// Education
-#let education(
-    educationdata: none,
-    title: none
+#let edu(
+    start_date: none,
+    end_date: none,
+    url: none,
+    institution: none,
+    location: none,
+    degree: none,
+    area: none,
+    current: false
 ) = {
     
-    if title != none [
-        == #title
-    ] else [
-        == Education
-    ]
-    
-    for edu in educationdata {
-        // Parse ISO date strings into datetime objects
-        let start = utils.strpdate(edu.startDate)
-        let end = utils.strpdate(edu.endDate)
+    let start = utils.strpdate(start_date)
+    let end = utils.strpdate(end_date)
 
-        // Create a block layout for each education entry
-        block(width: 100%)[
-            // Line 1: Institution and Location
-            *#link(edu.url)[#edu.institution]* #h(1fr) *#edu.location* \
-            // Line 2: Degree and Date Range
-            #text(style: "italic")[#edu.studyType in #edu.area] #h(1fr)
-            #utils.monthname(start.month()) #start.year() #sym.dash.en 
-            #if edu.current [
-                Present
-            ] else [
-                #utils.monthname(end.month()) #end.year()
-            ]
-                \
+    block(width: 100%)[
+        // Line 1: Institution and Location
+        *#link(url)[#institution]* #h(1fr) *#location* \
+        // Line 2: Degree and Date Range
+        #text(style: "italic")[#degree in #area] #h(1fr)
+        #utils.monthname(start.month()) #start.year() #sym.dash.en 
+        #if current [
+            Present
+        ] else [
+            #utils.monthname(end.month()) #end.year()
         ]
-    }
+            \
+    ]
 }
 
 #let work(
-    workdata: none,
-    title: none
+    start_date: none,
+    end_date: none,
+    url: none,
+    organization: none,
+    location: none,
+    position: none,
+    current: false
 ) = {
-    if title != none [
-        == #title
-    ] else [
-        == Experience
-    ]
+    let start = utils.strpdate(start_date)
+    let end = utils.strpdate(end_date)
 
-    for w in workdata {
-        // Parse ISO date strings into datetime objects
-        let start = utils.strpdate(w.startDate)
-        let end = utils.strpdate(w.endDate)
-
-        // Create a block layout for each education entry
-        block(width: 100%)[
-            // Line 1: Institution and Location
-            #if "url" in w [
-                *#link(w.url)[#w.organization]* #h(1fr) *#w.location* \
-            ] else [
-                *#w.organization* #h(1fr) *#w.location* \
-            ]
-            // Line 2: Degree and Date Range
-            #text(style: "italic")[#w.position] #h(1fr)
-            #utils.monthname(start.month()) #start.year() #sym.dash.en
-            #if w.current [
-                    Present
-            ] else [
-                    #utils.monthname(end.month()) #end.year()
-            ]
-            // Highlights or Description
-            #for hi in w.highlights [
-                - #eval("[" + hi + "]")
-            ]
+    // Create a block layout for each education entry
+    block(width: 100%)[
+        // Line 1: Institution and Location
+        #if url != none [
+            *#link(url)[#organization]* #h(1fr) *#location* \
+        ] else [
+            *#organization* #h(1fr) *#location* \
         ]
-    }
+        // Line 2: Degree and Date Range
+        #text(style: "italic")[#position] #h(1fr)
+        #utils.monthname(start.month()) #start.year() #sym.dash.en
+        #if current [
+                Present
+        ] else [
+                #utils.monthname(end.month()) #end.year()
+        ]
+    ]
 }
 
 #let projects(
-    projectsdata: none,
-    title: none
+    projectsdata: none
 ) = {
-
-    if title != none [
-        == #title
-    ] else [
-        == Projects
-    ]
-
     for project in projectsdata {
         let start = utils.strpdate(project.startDate)
         block(width: 100%)[
@@ -184,14 +160,7 @@
 
 #let awards(
     awardsdata: none,
-    title: none
 ) = {
-    if title != none [
-        == #title
-    ] else [
-        == Awards, Grants, and Fellowships
-    ]
-
     for award in awardsdata {
         // Parse ISO date strings into datetime objects
         let date = utils.strpdate(award.date)
@@ -207,15 +176,7 @@
 
 #let publications(
     publicationsdata: none,
-    title: none
 ) = {
-    
-    if title != none [
-        == #title
-    ] else [
-        == Selected publications
-    ]
-
     for pub in publicationsdata {
         // Parse ISO date strings into datetime objects
         // let date = utils.strpdate(pub.releaseDate)
@@ -240,19 +201,12 @@
     }
 }
 
-#let skills(
-    skillsdata: none,
-    title: none
+#let skillgroup(
+    group_name: none,
+    skills: none
 ) = {
-
-    if title != none [
-        == #title
-    ] else [
-        == Technical expertise
+    [ 
+        *#group_name*: #skills.join(", ")
+        \
     ]
-    
-    for group in skillsdata [
-        - *#group.category*: #group.skills.join(", ")
-    ]
-
 }
