@@ -170,31 +170,21 @@
     }
 }
 
-#let publications(
-    publicationsdata: none,
+#let publication(
+    title: "",
+    authors: none,
+    journal: "",
+    year: "",
+    month: "",
+    doi: ""
 ) = {
-    for pub in publicationsdata {
-        // Parse ISO date strings into datetime objects
-        // let date = utils.strpdate(pub.releaseDate)
-        let author_count = 0
-        // Create a block layout for each education entry
-        block(width: 100%)[
-            // Line 1: Institution and Location
-            *#link(pub.doi)[#pub.title]* \
-            #for author in pub.authors [
-                #if author == "Nathan J. LeRoy" [
-                    *#author*#if author_count < pub.authors.len() - 1 [, ] else []
-                ] else [
-                    #author#if author_count < pub.authors.len() - 1 [, ] else []
-                ]
-                // increment author count
-                #{ author_count += 1 }
-            ] \
-            *#pub.journal* (#pub.year) DOI: #link(pub.doi)[#pub.doi] \
-            // Line 2: Degree and Date Range
-            // Published on #text(style: "italic")[#pub.publisher]  #h(1fr) #utils.monthname(date.month()) #date.year() \
-        ]
-    }
+    block(width: 100%)[
+        *#link(doi)[#title]* \
+        #authors.map(a => {
+            if a.me [*#a.name*] else [#a.name]
+        }).join(", ")\
+        *#journal* (#year) DOI: #link(doi)[#doi]
+    ]
 }
 
 #let skillgroup(
